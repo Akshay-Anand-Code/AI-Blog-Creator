@@ -2,6 +2,7 @@
 
 Article scraping and AI rewriting platform built with Laravel 12, React, and Node.js worker powered by OpenAI.
 
+Application Video Recording - https://www.loom.com/share/31d92fde5c6d47199b99b2bc352d8b4b
 ---
 
 ## Prerequisites
