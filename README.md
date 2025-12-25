@@ -1,59 +1,207 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Beyond Scraper
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Article scraping and AI rewriting platform built with Laravel 12, React, and Node.js worker powered by OpenAI.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Prerequisites
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- PHP 8.2+
+- Composer
+- Node.js 18+
+- SQLite (included with Laravel)
+- OpenAI API Key (https://platform.openai.com/api/keys)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 1. Clone Repository
+```bash
+git clone https://github.com/your-username/beyond-scraper.git
+cd beyond-scraper
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Backend Setup
+```bash
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan db:seed
+```
 
-## Laravel Sponsors
+### 3. Frontend Setup
+```bash
+npm install
+npm run build
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 4. Node.js Worker Setup
+```bash
+cd scraper
+npm install
+cp .env.example .env
+```
 
-### Premium Partners
+Edit `scraper/.env`:
+```
+OPENAI_API_KEY=sk-your-actual-key
+LARAVEL_API_URL=http://127.0.0.1:8000/api
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## Running the Project
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Open THREE terminals:
 
-## Code of Conduct
+### Terminal 1 - Laravel Server
+```bash
+php artisan serve
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Runs at: http://127.0.0.1:8000
 
-## Security Vulnerabilities
+<img width="816" height="181" alt="image" src="https://github.com/user-attachments/assets/3f4472b6-834f-42dc-9cec-ea7ebda090bf" />
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+
+### Terminal 2 - Vite (Frontend)
+```bash
+npm run dev
+```
+
+Runs at: http://localhost:5173
+
+<img width="718" height="286" alt="image" src="https://github.com/user-attachments/assets/a37b194b-483b-4d47-8fab-a1489698a038" />
+
+Note: Vite provides hot-reload for React components. Do NOT visit port 5173. Instead, visit the Laravel server at http://127.0.0.1:8000/dashboard to see your dashboard with live React updates from Vite.
+
+### Terminal 3 - Worker
+```bash
+cd scraper
+node researcher.js
+```
+
+Scrapes and enhances articles using OpenAI.
+
+<img width="1077" height="243" alt="image" src="https://github.com/user-attachments/assets/2847643c-f901-4ac2-95cc-6f28e70a5cd6" />
+
+
+---
+
+## Accessing the Dashboard
+
+Visit: http://127.0.0.1:8000/dashboard
+
+- Vite runs on port 5173 for development/hot-reload only
+- Your actual dashboard is served by Laravel on port 8000
+- Keep Terminal 2 running for hot-reload to work (changes update instantly)
+
+---
+
+## Usage
+
+1. Open http://localhost:8000
+   <img width="816" height="181" alt="image" src="https://github.com/user-attachments/assets/f3b78ea9-27b0-4948-bdf5-b316e2c40210" />
+
+3. Register account
+4. Start worker (Terminal 3)
+   <img width="1087" height="241" alt="image" src="https://github.com/user-attachments/assets/0e498dc3-c5ab-489e-a00b-0d449d91eda4" />
+
+5. View original and AI-updated article versions on dashboard
+   <img width="1901" height="944" alt="image" src="https://github.com/user-attachments/assets/7852b2c8-51de-473c-855c-125cfa67cdcd" />
+
+6. Toggle between versions with button
+   <img width="270" height="113" alt="image" src="https://github.com/user-attachments/assets/ef10537f-622e-4ac2-be77-4191255c7f0b" />
+
+
+---
+
+## Features
+
+- User authentication via Laravel Sanctum
+- CRUD operations for articles
+- Automatic article scraping
+- AI enhancement using OpenAI GPT-4 Turbo
+- Toggle original vs updated versions
+- Real-time dashboard
+- Article references
+- SQLite database
+- Responsive React UI
+- Vite hot-reload
+
+---
+
+## Environment Setup
+
+Your `.env` is already configured correctly:
+
+```
+APP_NAME=Laravel
+APP_ENV=local
+APP_DEBUG=true
+APP_URL=http://localhost
+DB_CONNECTION=sqlite
+SESSION_DRIVER=database
+QUEUE_CONNECTION=database
+CACHE_STORE=database
+```
+
+For the worker, set in `scraper/.env`:
+```
+OPENAI_API_KEY=sk-your-api-key
+LARAVEL_API_URL=http://127.0.0.1:8000/api/articles
+```
+
+---
+
+## Troubleshooting
+
+### Laravel won't start
+```bash
+php artisan cache:clear
+php artisan config:clear
+php artisan migrate
+php artisan serve
+```
+
+### Database missing
+```bash
+php artisan migrate
+```
+
+### React not updating
+Ensure Vite is running in Terminal 2:
+```bash
+npm run dev
+```
+
+### Worker fails
+Check:
+- OpenAI API key in scraper/.env
+- Laravel running on port 8000
+- LARAVEL_API_URL is correct
+
+### Port 8000 in use
+```bash
+php artisan serve --port=8001
+```
+
+---
+
+## Tech Stack
+
+- Backend: Laravel 12
+- Frontend: React 18 + Tailwind CSS
+- Build: Vite
+- Worker: Node.js 18+
+- Database: SQLite
+- AI: OpenAI GPT-4 Turbo
+- Auth: Laravel Sanctum
+
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MIT
